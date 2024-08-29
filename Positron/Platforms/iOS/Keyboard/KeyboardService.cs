@@ -15,7 +15,7 @@ namespace Positron.Platforms.iOS.Keyboard
 
         static double UpdateHeightMargin(
             WKWebView iOSWebView,
-            NativeWebView webView,
+            PositronWebView webView,
             System.Drawing.RectangleF rect) {
             var height = rect.Height;
 
@@ -51,7 +51,7 @@ setTimeout(() => {{
 
             return height;
         }
-        public static IDisposable Install(WKWebView iOSWebView, NativeWebView webView)
+        public static IDisposable Install(WKWebView iOSWebView, PositronWebView webView)
         {
 
 

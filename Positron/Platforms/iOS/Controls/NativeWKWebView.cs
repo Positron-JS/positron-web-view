@@ -84,7 +84,7 @@ internal class NativeWKWebView : MauiWKWebView
             });
         ";
         this.Inspectable = true;
-        if (handler.VirtualView is NativeWebView nativeWebView)
+        if (handler.VirtualView is PositronWebView nativeWebView)
         {
 
             this.UIDelegate = new NativeWebViewUIDelegate(handler);

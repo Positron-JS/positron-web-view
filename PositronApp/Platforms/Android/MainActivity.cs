@@ -4,7 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Positron;
 
-namespace SocialMailApp;
+namespace PositronApp;
 
 [IntentFilter(
     new[] {

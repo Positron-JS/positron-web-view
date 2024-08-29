@@ -1,6 +1,6 @@
 ﻿using Positron.Pages;
 
-namespace SocialMailApp;
+namespace PositronApp;
 
 public partial class App : Application
 {

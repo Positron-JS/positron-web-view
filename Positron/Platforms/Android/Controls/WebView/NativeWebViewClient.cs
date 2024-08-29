@@ -17,9 +17,9 @@ namespace Positron.Platforms.Android.Controls
     class NativeWebViewClient : MauiWebViewClient
     {
         private readonly global::Android.Webkit.WebView platformView;
-        private readonly NativeWebView nativeWebView;
+        private readonly PositronWebView nativeWebView;
 
-        public NativeWebViewClient(WebViewHandler handler, NativeWebView nativeWebView) : base(handler)
+        public NativeWebViewClient(WebViewHandler handler, PositronWebView nativeWebView) : base(handler)
         {
 
             this.platformView = handler.PlatformView;
@@ -45,10 +45,10 @@ namespace Positron.Platforms.Android.Controls
 
         class MessageCallback: WebMessagePort.WebMessageCallback
         {
-            private readonly NativeWebView client;
+            private readonly PositronWebView client;
             private readonly WebMessagePort sender;
 
-            public MessageCallback(NativeWebView client, WebMessagePort sender)
+            public MessageCallback(PositronWebView client, WebMessagePort sender)
             {
                 this.client = client;
                 this.sender = sender;

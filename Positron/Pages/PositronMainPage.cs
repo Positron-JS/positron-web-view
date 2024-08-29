@@ -10,13 +10,13 @@ namespace Positron.Pages
     public class PositronMainPage: ContentPage
     {
 
-        public readonly NativeWebView WebView;
+        public readonly PositronWebView WebView;
 
         public string? Url { get; set; }
 
         public PositronMainPage()
         {
-            WebView = new NativeWebView() {
+            WebView = new PositronWebView() {
                 HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill
             };

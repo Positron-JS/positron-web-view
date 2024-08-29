@@ -2,7 +2,7 @@
 using Microsoft.Maui.LifecycleEvents;
 using Positron;
 
-namespace SocialMailApp;
+namespace PositronApp;
 
 public static partial class MauiProgram
 {
@@ -10,7 +10,8 @@ public static partial class MauiProgram
 	{
 		var builder = MauiApp.CreateBuilder();
 		    builder.UseMauiCommunityToolkit()
-            .RegisterPushServices();
+				// .RegisterPushServices()
+				;
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>

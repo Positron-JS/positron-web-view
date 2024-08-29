@@ -12,13 +12,13 @@ using Positron.Platforms.iOS.Controls;
 
 namespace Positron.Controls
 {
-    partial class NativeWebView
+    partial class PositronWebView
     {
         static partial void OnStaticPlatformInit()
         {
             var config = MauiWKWebView.CreateConfiguration();
             WebViewHandler.PlatformViewFactory =
-                handler => handler.VirtualView is NativeWebView
+                handler => handler.VirtualView is PositronWebView
                     ? new NativeWKWebView(CGRect.Empty, (WebViewHandler)handler, config)
                     : new MauiWKWebView(CGRect.Empty, (WebViewHandler)handler, config);
         }

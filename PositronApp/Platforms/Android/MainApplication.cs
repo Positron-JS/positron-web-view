@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace SocialMailApp;
+namespace PositronApp;
 
 [Application]
 public class MainApplication : MauiApplication

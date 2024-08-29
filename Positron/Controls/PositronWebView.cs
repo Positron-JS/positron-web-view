@@ -9,10 +9,10 @@ using Positron.Resources;
 namespace Positron.Controls
 {
 
-    public partial class NativeWebView : WebView
+    public partial class PositronWebView : WebView
     {
 
-        static NativeWebView() {
+        static PositronWebView() {
             OnStaticPlatformInit();
         }
 
@@ -26,7 +26,7 @@ namespace Positron.Controls
 
         public GlobalClr Clr { get; }
 
-        public NativeWebView()
+        public PositronWebView()
         {
             Context = JSContextFactory.Instance.Create();
             this.Clr = new GlobalClr();
@@ -104,7 +104,7 @@ namespace Positron.Controls
             });
         }
 
-        ~NativeWebView()
+        ~PositronWebView()
         {
             disposables.Dispose();
         }

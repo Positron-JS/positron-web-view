@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace SocialMailApp;
+namespace PositronApp;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -17,9 +17,9 @@ namespace Positron.Controls
 
     public class JSBridge : Java.Lang.Object
     {
-        private readonly NativeWebView nativeWebView;
+        private readonly PositronWebView nativeWebView;
 
-        internal JSBridge(NativeWebView nativeWebView)
+        internal JSBridge(PositronWebView nativeWebView)
         {
             this.nativeWebView = nativeWebView;
         }
@@ -32,7 +32,7 @@ namespace Positron.Controls
         }
     }
 
-    partial class NativeWebView
+    partial class PositronWebView
     {
 
         internal bool IsPageReady = false;
