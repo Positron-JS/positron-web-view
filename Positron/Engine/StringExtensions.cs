@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Positron
 {
-    public static class StringExtensions
+    public static partial class StringExtensions
     {
 
         public static bool EqualsIgnoreCase(this string text, string compare) {

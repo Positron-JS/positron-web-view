@@ -4,6 +4,8 @@ using Android.Webkit;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
+using MimeKit;
+using Positron.Platforms.Android.Core;
 
 namespace Positron.Controls
 {
@@ -101,6 +103,103 @@ namespace Positron.Controls
             });
         }
 
+        public override bool OnShowFileChooser(Android.Webkit.WebView webView, IValueCallback filePathCallback, FileChooserParams fileChooserParams)
+        {
+            if (webView == null)
+            {
+                return false;
+            }
+
+            var multiple = fileChooserParams?.Mode == ChromeFileChooserMode.OpenMultiple;
+            var fileTypes = FilePickerService.FileTypesFrom(fileChooserParams?.GetAcceptTypes());
+            var options = new PickOptions
+            {
+                PickerTitle = fileChooserParams?.Title ?? "Choose Files",
+                FileTypes = new FilePickerFileType(fileTypes),
+            };
+            Application.Current.MainPage.Dispatcher.DispatchAsync(async () =>
+            {
+                try
+                {
+                    var p = await Permissions.RequestAsync<Permissions.StorageRead>();
+                    if (p != PermissionStatus.Granted)
+                    {
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Permission Denied",
+                            $"You must enable file permissions to upload files.\nPlease go to Settings > Apps > {AppInfo.Name} and enable file permissions",
+                            "Ok");
+                        filePathCallback?.OnReceiveValue(null);
+                        return;
+                    }
+
+                    var filesTask = await PositronFilePicker.PlatformPickAsync(options, multiple);
+
+                    // copy file to temporary path...
+
+                    using var progress = new ProgressPanel("Converting");
+                    using var d = BackButtonInterceptor.Instance.InterceptBackButton(() => progress.Cancel());
+
+                    var files = filesTask;
+
+                    Dictionary<string, double> progressMap = new Dictionary<string, double>();
+
+                    var all = await Task.WhenAll(files.Select(async x =>
+                    {
+                        var tempFile = x;
+                        var mimeType = MimeTypes.GetMimeType(tempFile);
+                        if (mimeType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var oldFile = tempFile;
+                            try
+                            {
+                                tempFile = await AndroidHybridMedia.EncodeMP4Async(tempFile, Preset.MediumQuality, (n) =>
+                                {
+                                    double progressValue = 0;
+                                    lock (progressMap)
+                                    {
+                                        progressMap[tempFile] = n;
+                                        progressValue = progressMap.Values.Average();
+                                    }
+                                    Application.Current.Dispatcher.Dispatch(() =>
+                                    {
+                                        progress.Progress = progressValue;
+                                    });
+                                }, progress.CancelToken);
+                                if (tempFile != oldFile)
+                                {
+                                    System.IO.File.Delete(oldFile);
+                                }
+                            }
+                            catch (TaskCanceledException)
+                            {
+                                throw;
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine(ex);
+                            }
+                        }
+                        return tempFile;
+                    }).ToList());
+                    var uris = all.Select(x => Android.Net.Uri.FromFile(new Java.IO.File(x))).ToArray();
+                    filePathCallback?.OnReceiveValue(uris);
+                }
+                catch (TaskCanceledException)
+                {
+                    filePathCallback?.OnReceiveValue(null);
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+                    // HybridApplication.LogException(ex);
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    filePathCallback?.OnReceiveValue(null);
+                }
+            });
+
+            return true;
+        }
+
         public override void OnHideCustomView()
         {
             hideCustomView?.Invoke();
@@ -122,24 +221,34 @@ namespace Positron.Controls
             var grid = webView.Parent as Grid;
             if (grid != null)
             {
-                // var v = view.;
-                // v.HorizontalOptions = LayoutOptions.Fill;
-                // v.VerticalOptions = LayoutOptions.Fill;
-                // grid.Children.Add(v);
-                // var d = BackButtonInterceptor.Instance.InterceptBackButton(() => OnHideCustomView());
+                var v = view.ToView();
+                v.HorizontalOptions = LayoutOptions.Fill;
+                v.VerticalOptions = LayoutOptions.Fill;
+                grid.Children.Add(v);
+                var d = BackButtonInterceptor.Instance.InterceptBackButton(() => OnHideCustomView());
 
-                //var closeButton = new CloseButton { 
-                //    Margin = new Xamarin.Forms.Thickness(0,10,10,0),
+                //var closeButton = new CloseButton
+                //{
+                //    Margin = new Xamarin.Forms.Thickness(0, 10, 10, 0),
                 //    HorizontalOptions = LayoutOptions.End,
                 //    VerticalOptions = LayoutOptions.Start,
-                //    Command = new Command(() => {
+                //    Command = new Command(() =>
+                //    {
                 //        OnHideCustomView();
                 //    })
                 //};
 
-                //grid.Children.Add(closeButton);
+                // grid.Children.Add(closeButton);
 
                 hideCustomView = () => {
+                    v.Dispatcher.Dispatch(() => {
+                        this.fullScreenView = null;
+                        grid.Children.Remove(v);
+                        callback?.OnCustomViewHidden();
+                        hideCustomView = null;
+                        d.Dispose();
+                    });
+
                     // HybridRunner.RunAsync(() => webView.EvaluateJavaScriptAsync("__androidHideCustomView()"));
                     // this.fullScreenView = null;
                     // // grid.Children.Remove(closeButton);
