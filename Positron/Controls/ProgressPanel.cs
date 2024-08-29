@@ -117,9 +117,9 @@ public sealed class ProgressPanel : Grid, IDisposable
 
     public void Cancel()
     {
-        HybridRunner.RunAsync(async () =>
+        this.Dispatcher.DispatchAsync(async () =>
         {
-            if (await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Cancel?", "Are you sure you want to cancel?", "Yes", "No"))
+            if (await Application.Current.MainPage.DisplayAlert("Cancel?", "Are you sure you want to cancel?", "Yes", "No"))
             {
                 cancellationTokenSource.Cancel();
                 this.Dispose();

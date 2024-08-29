@@ -121,18 +121,24 @@ namespace Positron.Controls
             {
                 try
                 {
-                    var p = await Permissions.RequestAsync<Permissions.StorageRead>();
-                    if (p != PermissionStatus.Granted)
+                    //var p = await Permissions.RequestAsync<Permissions.StorageRead>();
+                    //if (p != PermissionStatus.Granted)
+                    //{
+                    //    await Application.Current.MainPage.DisplayAlert(
+                    //        "Permission Denied",
+                    //        $"You must enable file permissions to upload files.\nPlease go to Settings > Apps > {AppInfo.Name} and enable file permissions",
+                    //        "Ok");
+                    //    filePathCallback?.OnReceiveValue(null);
+                    //    return;
+                    //}
+
+                    var filesTask = await PositronFilePicker.PlatformPickAsync(options, multiple);
+
+                    if (filesTask == null)
                     {
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Permission Denied",
-                            $"You must enable file permissions to upload files.\nPlease go to Settings > Apps > {AppInfo.Name} and enable file permissions",
-                            "Ok");
                         filePathCallback?.OnReceiveValue(null);
                         return;
                     }
-
-                    var filesTask = await PositronFilePicker.PlatformPickAsync(options, multiple);
 
                     // copy file to temporary path...
 

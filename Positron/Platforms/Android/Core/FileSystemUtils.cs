@@ -67,7 +67,7 @@ static partial class FileSystemUtils
             return absolute;
 
         // fall back to just copying it
-        var cached = await CacheContentFile(uri);
+        var cached = await CacheContentFileAsync(uri);
         if (!string.IsNullOrWhiteSpace(cached) && Path.IsPathRooted(cached))
             return cached;
 
