@@ -4,6 +4,7 @@
 		<TargetFrameworks>net8.0-ios;net8.0-android;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PackageId>NeuroSpeech.Positron</PackageId>
+		<AssemblyName>NeuroSpeech.Positron</AssemblyName>
 		<Version>1.0.1</Version>
 		<Nullable>enable</Nullable>
 		<SingleProject>true</SingleProject>
