@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "C#: PositronApp [PositronApp - net8.0-ios]",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/PositronApp/PositronApp.csproj",
+            "launchConfigurationId": "TargetFramework=net8.0-ios;Positron"
+        }
+    ]
+}

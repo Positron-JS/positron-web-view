@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31611.283
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Positron", "Positron\Positron.csproj", "{94EFD1FF-BCFB-4790-9770-765F4643482E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YantraJS.ExpressionCompiler", "yantra\YantraJS.ExpressionCompiler\YantraJS.ExpressionCompiler.csproj", "{02733C38-4706-440E-9E96-87908EF9F46D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YantraJS.JSClassGenerator", "yantra\YantraJS.JSClassGenerator\YantraJS.JSClassGenerator.csproj", "{BED46173-CE3C-4656-9C90-4659B7760FAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PositronApp", "PositronApp\PositronApp.csproj", "{68305F01-9CB8-4E25-886F-45CBF07690B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94EFD1FF-BCFB-4790-9770-765F4643482E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94EFD1FF-BCFB-4790-9770-765F4643482E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94EFD1FF-BCFB-4790-9770-765F4643482E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94EFD1FF-BCFB-4790-9770-765F4643482E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02733C38-4706-440E-9E96-87908EF9F46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02733C38-4706-440E-9E96-87908EF9F46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02733C38-4706-440E-9E96-87908EF9F46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02733C38-4706-440E-9E96-87908EF9F46D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED46173-CE3C-4656-9C90-4659B7760FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED46173-CE3C-4656-9C90-4659B7760FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED46173-CE3C-4656-9C90-4659B7760FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED46173-CE3C-4656-9C90-4659B7760FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68305F01-9CB8-4E25-886F-45CBF07690B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68305F01-9CB8-4E25-886F-45CBF07690B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68305F01-9CB8-4E25-886F-45CBF07690B4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{68305F01-9CB8-4E25-886F-45CBF07690B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68305F01-9CB8-4E25-886F-45CBF07690B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68305F01-9CB8-4E25-886F-45CBF07690B4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+	EndGlobalSection
+EndGlobal
