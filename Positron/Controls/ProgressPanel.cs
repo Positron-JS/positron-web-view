@@ -1,8 +1,10 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui;
 
 namespace Positron.Controls;
 
@@ -11,7 +13,12 @@ public class CloseButton: Button
     public CloseButton()
     {
         this.Text = "x";
-        this.BackgroundColor = Color.Parse("Red");
+        this.Padding = new Thickness(10, 10, 10, 10);
+        this.TextColor = Colors.Red;
+        this.BackgroundColor = Colors.Transparent;
+        this.FontSize = 20;
+        this.MinimumWidthRequest = 40;
+        this.MinimumHeightRequest = 40;
     }
 }
 
@@ -35,16 +42,15 @@ public sealed class ProgressPanel : Grid, IDisposable
     {
         cancellationTokenSource = new CancellationTokenSource();
         CancelToken = cancellationTokenSource.Token;
-        var grid = (Application.Current.MainPage as ContentPage)?.Content as Grid;
-        grid?.Children?.Add(this);
         this.HorizontalOptions = LayoutOptions.Fill;
         this.VerticalOptions = LayoutOptions.Fill;
-        this.parentGrid = grid;
 
         this.progress = new ProgressBar();
+        progress.ZIndex = 2;
+        this.progress.ProgressColor = Colors.Blue;
         this.progress.HorizontalOptions = LayoutOptions.Fill;
         this.progress.VerticalOptions = LayoutOptions.Center;
-        this.progress.MinimumWidthRequest = 100;
+        this.progress.MinimumWidthRequest = 300;
 
         this.ColumnDefinitions.Add(new ColumnDefinition
         {
@@ -53,10 +59,6 @@ public sealed class ProgressPanel : Grid, IDisposable
         this.ColumnDefinitions.Add(new ColumnDefinition
         {
             Width = 5
-        });
-        this.ColumnDefinitions.Add(new ColumnDefinition
-        {
-            Width = GridLength.Auto
         });
         this.ColumnDefinitions.Add(new ColumnDefinition
         {
@@ -85,34 +87,60 @@ public sealed class ProgressPanel : Grid, IDisposable
         });
         this.RowDefinitions.Add(new RowDefinition
         {
-            Height = GridLength.Auto
-        });
-        this.RowDefinitions.Add(new RowDefinition
-        {
             Height = 5
         });
         this.RowDefinitions.Add(new RowDefinition
         {
             Height = GridLength.Star
         });
+
+        var cg = new Grid
+        {
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill,
+            RowDefinitions = new RowDefinitionCollection
+            {
+                new RowDefinition { Height = GridLength.Auto },
+                new RowDefinition { Height = GridLength.Auto }
+            },
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
+                new ColumnDefinition
+                {
+                    Width = GridLength.Star
+                },
+                new ColumnDefinition { Width = 30 }
+            },
+            Children = {
+                new Label {
+                    Text = title,
+                    Margin = new Thickness(10,10,10,10),
+                    TextColor = Colors.Gray,
+                    VerticalOptions = LayoutOptions.Center,
+                },
+                new CloseButton
+                {
+                    Padding = 0,
+                    Command = new Command(() => Cancel()),
+                    VerticalOptions = LayoutOptions.Center,
+                }.SetGrid(column: 1),
+                progress.SetGrid(row: 1, columnSpan: 2)
+            }
+        };
 
         this.Children.Add(new Frame
         {
-            BackgroundColor = Color.Parse("White"),
-            HasShadow = true,
-        }.SetGrid(column: 1, columnSpan: 4, row: 1, rowSpan: 4));
-
-        this.Children.Add(new Label
-        {
-            Text = title,
+            MinimumWidthRequest = 300,
+            MinimumHeightRequest = 100,
+            Content = cg
         }.SetGrid(column: 2, row: 2));
 
-        this.Children.Add(progress.SetGrid(column: 2, row: 3, columnSpan: 2));
-        this.Children.Add(new CloseButton
-        {
-            Padding = 0,
-            Command = new Command(() => Cancel()),
-        }.SetGrid(row: 2, column: 3));
+        // this.Children.Add(cg.SetGrid(column: 2, row: 2));
+
+        var grid = (Application.Current.MainPage as ContentPage)?.Content as Grid;
+        grid?.Children?.Add(this);
+        this.parentGrid = grid;
+
     }
 
     public void Cancel()

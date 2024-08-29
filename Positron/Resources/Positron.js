@@ -10,18 +10,18 @@
                 let result = ($code$).apply({ clr, evalInPage }, a);
                 if (result && result.then) {
                     result.then((r) => {
-                        evalInPage(`window.nositron.on($rid$, ${serialize(r) || 1})`);
+                        evalInPage(`window.positron.on($rid$, ${serialize(r) || 1})`);
                     }, (e) => {
-                        evalInPage(`window.nositron.on($rid$, void 0, ${serialize(e.stack || e)})`);
+                        evalInPage(`window.positron.on($rid$, void 0, ${serialize(e.stack || e)})`);
                     });
                 } else {
                     setTimeout(() =>
-                        evalInPage(`window.nositron.on($rid$, ${serialize(result) || 1})`),
+                        evalInPage(`window.positron.on($rid$, ${serialize(result) || 1})`),
                         1);
                 }
             } catch (error) {
                 setTimeout(() =>
-                    evalInPage(`window.nositron.on($rid$, void 0, ${serialize(error.stack || error)})`),
+                    evalInPage(`window.positron.on($rid$, void 0, ${serialize(error.stack || error)})`),
                     1);
             }
         }
@@ -29,7 +29,7 @@
 
     const scriptTemplate = runCode().toString();
 
-    window.nositron = {
+    window.positron = {
 
         on(rid, result, error) {
             try {
