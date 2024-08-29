@@ -1,5 +1,5 @@
-﻿using Positron.Controls;
-using Positron.Pages;
+﻿using NeuroSpeech.Positron.Controls;
+using NeuroSpeech.Positron.Pages;
 
 namespace PositronApp;
 

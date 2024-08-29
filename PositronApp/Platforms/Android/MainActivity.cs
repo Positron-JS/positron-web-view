@@ -2,7 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Positron;
+using NeuroSpeech.Positron;
 
 namespace PositronApp;
 

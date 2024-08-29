@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Maui.LifecycleEvents;
-using Positron;
+using NeuroSpeech.Positron;
 
 namespace PositronApp;
 

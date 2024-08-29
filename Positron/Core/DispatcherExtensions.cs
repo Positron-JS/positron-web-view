@@ -6,41 +6,40 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 
-namespace Positron
+namespace NeuroSpeech.Positron;
+
+internal static class DispatcherExtensions
 {
-    internal static class DispatcherExtensions
+
+    public static void DispatchTask(this IDispatcher dispatcher, Func<Task> action)
     {
-
-        public static void DispatchTask(this IDispatcher dispatcher, Func<Task> action)
+        dispatcher.Dispatch(async () =>
         {
-            dispatcher.Dispatch(async () =>
+            try
             {
-                try
-                {
-                    await action();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                }
-            });
-        }
-        public static void DispatchTaskDelayed(this IDispatcher dispatcher, TimeSpan delay, Func<Task> action)
-        {
-            dispatcher.DispatchDelayed(delay, async () =>
+                await action();
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    await action();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                }
-            });
-        }
-
-
-
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        });
     }
+    public static void DispatchTaskDelayed(this IDispatcher dispatcher, TimeSpan delay, Func<Task> action)
+    {
+        dispatcher.DispatchDelayed(delay, async () =>
+        {
+            try
+            {
+                await action();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        });
+    }
+
+
+
 }

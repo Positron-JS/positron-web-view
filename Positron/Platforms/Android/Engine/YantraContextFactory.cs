@@ -5,34 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using YantraJS.Core;
 
-namespace Positron
+namespace NeuroSpeech.Positron;
+
+partial class JSContextFactory
 {
-    partial class JSContextFactory
+    static partial void OnPlatformInit()
     {
-        static partial void OnPlatformInit()
+        JSContextFactory.Instance = new YantraContextFactory();
+    }
+
+
+    internal class YantraContextFactory : JSContextFactory
+    {
+        private JSContext CreateContext()
         {
-            JSContextFactory.Instance = new YantraContextFactory();
+            var c = new JSContext();
+            c[KeyStrings.global] = c;
+            return c;
         }
 
-
-        internal class YantraContextFactory : JSContextFactory
+        public override IJSContext Create()
         {
-            private JSContext CreateContext()
-            {
-                var c = new JSContext();
-                c[KeyStrings.global] = c;
-                return c;
-            }
+            return this.CreateContext();
+        }
 
-            public override IJSContext Create()
-            {
-                return this.CreateContext();
-            }
-
-            public override IJSContext Create(Uri inverseWebSocketUri)
-            {
-                return this.CreateContext();
-            }
+        public override IJSContext Create(Uri inverseWebSocketUri)
+        {
+            return this.CreateContext();
         }
     }
 }

@@ -1,59 +1,58 @@
-﻿using Positron.Controls;
+﻿using NeuroSpeech.Positron.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Positron.Pages
+namespace NeuroSpeech.Positron.Pages;
+
+public class PositronMainPage: ContentPage
 {
-    public class PositronMainPage: ContentPage
+
+    public readonly PositronWebView WebView;
+
+    public string? Url { get; set; }
+
+    public PositronMainPage()
+    {
+        WebView = new PositronWebView() {
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill
+        };
+
+        var grid = new Grid();
+        grid.Children.Add(WebView);
+        this.Content = grid;
+        // this.Content = WebView;
+        Dispatcher.DispatchTaskDelayed(TimeSpan.FromMilliseconds(1), this.Ask);
+    }
+
+    private async Task Ask()
     {
 
-        public readonly PositronWebView WebView;
+        this.Url ??= Microsoft.Maui.Storage.Preferences.Default.Get<string>("url", null!);
 
-        public string? Url { get; set; }
-
-        public PositronMainPage()
+        if (this.Url != null)
         {
-            WebView = new PositronWebView() {
-                HorizontalOptions = LayoutOptions.Fill,
-                VerticalOptions = LayoutOptions.Fill
-            };
-
-            var grid = new Grid();
-            grid.Children.Add(WebView);
-            this.Content = grid;
-            // this.Content = WebView;
-            Dispatcher.DispatchTaskDelayed(TimeSpan.FromMilliseconds(1), this.Ask);
+            this.WebView.Source = new UrlWebViewSource { Url = Url };
+            return;
         }
 
-        private async Task Ask()
+        while (true)
         {
 
-            this.Url ??= Microsoft.Maui.Storage.Preferences.Default.Get<string>("url", null!);
-
-            if (this.Url != null)
+            var url = await this.DisplayPromptAsync("Url", "Enter URL");
+            if (url == null)
             {
-                this.WebView.Source = new UrlWebViewSource { Url = Url };
-                return;
+                continue;
             }
 
-            while (true)
-            {
+            this.Url = url;
+            Microsoft.Maui.Storage.Preferences.Default.Set("url", url);
 
-                var url = await this.DisplayPromptAsync("Url", "Enter URL");
-                if (url == null)
-                {
-                    continue;
-                }
-
-                this.Url = url;
-                Microsoft.Maui.Storage.Preferences.Default.Set("url", url);
-
-                this.WebView.Source = new UrlWebViewSource {  Url = url };
-                break;
-            }
+            this.WebView.Source = new UrlWebViewSource {  Url = url };
+            break;
         }
     }
 }

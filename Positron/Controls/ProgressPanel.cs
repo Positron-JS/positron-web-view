@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Maui;
 
-namespace Positron.Controls;
+namespace NeuroSpeech.Positron.Controls;
 
 public class CloseButton: Button
 {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Positron.Resources {
+namespace NeuroSpeech.Positron.Resources {
     using System;
     
     

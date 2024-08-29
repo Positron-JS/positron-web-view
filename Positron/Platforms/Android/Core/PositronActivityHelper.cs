@@ -9,7 +9,7 @@ using Intent = Android.Content.Intent;
 
 using MauiApp = Microsoft.Maui.Controls.Application;
 
-namespace Positron.Platforms.Android.Core;
+namespace NeuroSpeech.Positron.Platforms.Android.Core;
 
 public class HybridActivityHelper
 {

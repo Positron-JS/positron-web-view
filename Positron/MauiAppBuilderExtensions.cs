@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Positron
+namespace NeuroSpeech.Positron;
+
+public static partial class MauiAppBuilderExtensions
 {
-    public static partial class MauiAppBuilderExtensions
-    {
-    }
 }

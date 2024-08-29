@@ -12,7 +12,7 @@ using Android.Provider;
 
 
 
-namespace Positron.Platforms.Android.Core;
+namespace NeuroSpeech.Positron.Platforms.Android.Core;
 
 static class PlatformUtils
 {

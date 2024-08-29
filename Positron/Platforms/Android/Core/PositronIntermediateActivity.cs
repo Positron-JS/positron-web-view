@@ -7,7 +7,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 
-namespace Positron.Platforms.Android.Core;
+namespace NeuroSpeech.Positron.Platforms.Android.Core;
 [Activity(ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize, Exported = false)]
 class IntermediateActivity : Activity
 {

@@ -2,10 +2,10 @@
 using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
-using Positron.Controls;
-using Positron.Platforms.iOS.Controls.WebView;
-using Positron.Platforms.iOS.Keyboard;
-using Positron.Resources;
+using NeuroSpeech.Positron.Controls;
+using NeuroSpeech.Positron.Platforms.iOS.Controls.WebView;
+using NeuroSpeech.Positron.Platforms.iOS.Keyboard;
+using NeuroSpeech.Positron.Resources;
 using ObjCRuntime;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using UIKit;
 using WebKit;
 
-namespace Positron.Platforms.iOS.Controls;
+namespace NeuroSpeech.Positron.Platforms.iOS.Controls;
 
 internal class MainScriptInvoker : NSObject, IWKScriptMessageHandlerWithReply
 {

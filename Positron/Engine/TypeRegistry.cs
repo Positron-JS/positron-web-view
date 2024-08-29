@@ -6,47 +6,47 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 
-namespace Positron
+namespace NeuroSpeech.Positron;
+
+
+public static class DictionaryExtensions4
+{
+    public static TValue GetOrCreate<TKey, TValue>(
+        this Dictionary<TKey, TValue> d,
+        TKey key,
+        Func<TKey, TValue> factory)
+    {
+        if (d.TryGetValue(key, out TValue value))
+            return value;
+        TValue v = factory(key);
+        d[key] = v;
+        return v;
+    }
+}
+
+
+public readonly struct XamlMemberInfo
+{
+    public readonly Type Type;
+    public readonly MemberInfo MemberInfo;
+    public readonly string Name;
+
+    public XamlMemberInfo(Type type, MemberInfo member, string name)
+    {
+        this.Type = type;
+        this.MemberInfo = member;
+        this.Name = name;
+    }
+
+    public bool IsEmpty => Type == null && MemberInfo == null;
+}
+
+public static class TypeRegistry
 {
 
-    public static class DictionaryExtensions4
-    {
-        public static TValue GetOrCreate<TKey, TValue>(
-            this Dictionary<TKey, TValue> d,
-            TKey key,
-            Func<TKey, TValue> factory)
-        {
-            if (d.TryGetValue(key, out TValue value))
-                return value;
-            TValue v = factory(key);
-            d[key] = v;
-            return v;
-        }
-    }
+    private static Dictionary<Type, (string name, string script)> scriptCache = new Dictionary<Type, (string name, string script)>();
 
-
-    public readonly struct XamlMemberInfo
-    {
-        public readonly Type Type;
-        public readonly MemberInfo MemberInfo;
-        public readonly string Name;
-
-        public XamlMemberInfo(Type type, MemberInfo member, string name)
-        {
-            this.Type = type;
-            this.MemberInfo = member;
-            this.Name = name;
-        }
-
-        public bool IsEmpty => Type == null && MemberInfo == null;
-    }
-
-    public static class TypeRegistry
-    {
-
-        private static Dictionary<Type, (string name, string script)> scriptCache = new Dictionary<Type, (string name, string script)>();
-
-        public static Action<JSTypeContext> AdditionalClassCodeGenerator = null;
+    public static Action<JSTypeContext> AdditionalClassCodeGenerator = null;
 //        private static (string name, string script) Generate(Type type)
 //        {
 //            var memberProperties =
@@ -135,77 +135,76 @@ namespace Positron
 //            return ("/clr/" + type.Namespace.Replace('.', '/') + "/" + typeName + ".js", sb.ToString());
 //        }
 
-        //public static (string name, string script) GenerateScript(Type type)
-        //{
-        //    return scriptCache.GetOrCreate(type, (k) => Generate(type));
-        //}
+    //public static (string name, string script) GenerateScript(Type type)
+    //{
+    //    return scriptCache.GetOrCreate(type, (k) => Generate(type));
+    //}
 
-        public static Dictionary<string, Assembly> Assemblies =>
-            AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(x => !x.IsDynamic)
-                    .ToDictionary(x => x.GetName().Name, x => x);
+    public static Dictionary<string, Assembly> Assemblies =>
+        AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !x.IsDynamic)
+                .ToDictionary(x => x.GetName().Name, x => x);
 
 
-        public static bool IsOfType(this Type type, Type baseType)
+    public static bool IsOfType(this Type type, Type baseType)
+    {
+        return type == baseType || baseType.IsAssignableFrom(type);
+    }
+
+    private static Dictionary<string, XamlMemberInfo> cache = new Dictionary<string, XamlMemberInfo>();
+
+    public static void Register(string name, Type type)
+    {
+        cache[name] = new XamlMemberInfo(type, null, name);
+    }
+
+    public static XamlMemberInfo Get(string name, bool throwIfNotFound = true)
+    {
+        var member = cache.GetOrCreate(name, k =>
         {
-            return type == baseType || baseType.IsAssignableFrom(type);
-        }
-
-        private static Dictionary<string, XamlMemberInfo> cache = new Dictionary<string, XamlMemberInfo>();
-
-        public static void Register(string name, Type type)
-        {
-            cache[name] = new XamlMemberInfo(type, null, name);
-        }
-
-        public static XamlMemberInfo Get(string name, bool throwIfNotFound = true)
-        {
-            var member = cache.GetOrCreate(name, k =>
+            var tokens = name.Split(':');
+            if (tokens.Length > 1)
             {
-                var tokens = name.Split(':');
-                if (tokens.Length > 1)
+                var type = Get(tokens[1]).Type;
+
+                name = tokens[0];
+
+                var n = name + "Property";
+
+                MemberInfo ms = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                    .FirstOrDefault(x => x.Name.EqualsIgnoreCase(n));
+
+                if (ms == null)
                 {
-                    var type = Get(tokens[1]).Type;
-
-                    name = tokens[0];
-
-                    var n = name + "Property";
-
-                    MemberInfo ms = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                        .FirstOrDefault(x => x.Name.EqualsIgnoreCase(n));
-
-                    if (ms == null)
-                    {
-                        ms = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                            .FirstOrDefault(x => x.Name.EqualsIgnoreCase(name));
-                    }
-
-                    if (ms == null)
-                    {
-                        if (throwIfNotFound)
-                        {
-                            throw new InvalidOperationException($"Property not found {name} on {type.Name}");
-                        }
-                        return default;
-                    }
-
-                    return new XamlMemberInfo(type, ms, name);
+                    ms = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .FirstOrDefault(x => x.Name.EqualsIgnoreCase(name));
                 }
 
-                Type t1 = Type.GetType(name, false);
-                if (throwIfNotFound)
+                if (ms == null)
                 {
-                    if (t1 == null)
+                    if (throwIfNotFound)
                     {
-                        throw new InvalidOperationException($"Type {name} not found");
+                        throw new InvalidOperationException($"Property not found {name} on {type.Name}");
                     }
+                    return default;
                 }
-                return new XamlMemberInfo(t1 as Type, t1, name);
-            });
 
-            if (member.IsEmpty && throwIfNotFound)
-                throw new NotImplementedException($"No type found for {name}");
-            return member;
-        }
+                return new XamlMemberInfo(type, ms, name);
+            }
+
+            Type t1 = Type.GetType(name, false);
+            if (throwIfNotFound)
+            {
+                if (t1 == null)
+                {
+                    throw new InvalidOperationException($"Type {name} not found");
+                }
+            }
+            return new XamlMemberInfo(t1 as Type, t1, name);
+        });
+
+        if (member.IsEmpty && throwIfNotFound)
+            throw new NotImplementedException($"No type found for {name}");
+        return member;
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Positron.Platforms;
+namespace NeuroSpeech.Positron.Platforms;
 
     internal class MediaHelper
     {

@@ -9,38 +9,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Positron
-{
-    public static partial class MauiAppBuilderExtensions
-    {
-        public static MauiAppBuilder RegisterPushServices(this MauiAppBuilder builder)
-        {
-            builder.ConfigureLifecycleEvents(events =>
-            {
-                events.AddAndroid(android => android.OnCreate((activity, _) => {
-                    CrossFirebase.Initialize(activity, CreateCrossFirebaseSettings());
-                    activity.RunOnUiThread(async () => {
-                        try {
-                            CrossFirebaseCloudMessaging.Current.TokenChanged += (s, e) => {
-                                Positron.Instance.DeviceToken = e.Token;
-                            };
-                            var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
-                            Positron.Instance.DeviceToken = token;
-                        } catch (Exception ex) {
-                            System.Diagnostics.Debug.WriteLine(ex);
-                        }
-                    });
-                    
-                }
-                ));
-            });
-            builder.Services.AddSingleton(_ => CrossFirebaseAuth.Current);
-            return builder;
-        }
+namespace NeuroSpeech.Positron;
 
-        private static CrossFirebaseSettings CreateCrossFirebaseSettings()
+public static partial class MauiAppBuilderExtensions
+{
+    public static MauiAppBuilder RegisterPushServices(this MauiAppBuilder builder)
+    {
+        builder.ConfigureLifecycleEvents(events =>
         {
-            return new CrossFirebaseSettings(isAuthEnabled: true);
-        }
+            events.AddAndroid(android => android.OnCreate((activity, _) => {
+                CrossFirebase.Initialize(activity, CreateCrossFirebaseSettings());
+                activity.RunOnUiThread(async () => {
+                    try {
+                        CrossFirebaseCloudMessaging.Current.TokenChanged += (s, e) => {
+                            Positron.Instance.DeviceToken = e.Token;
+                        };
+                        var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+                        Positron.Instance.DeviceToken = token;
+                    } catch (Exception ex) {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                    }
+                });
+                
+            }
+            ));
+        });
+        builder.Services.AddSingleton(_ => CrossFirebaseAuth.Current);
+        return builder;
+    }
+
+    private static CrossFirebaseSettings CreateCrossFirebaseSettings()
+    {
+        return new CrossFirebaseSettings(isAuthEnabled: true);
     }
 }

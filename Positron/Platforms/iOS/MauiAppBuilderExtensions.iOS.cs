@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Positron
+namespace NeuroSpeech.Positron;
+
+public static partial class MauiAppBuilderExtensions
 {
-    public static partial class MauiAppBuilderExtensions
+    public static MauiAppBuilder RegisterPushServices(this MauiAppBuilder builder)
     {
-        public static MauiAppBuilder RegisterPushServices(this MauiAppBuilder builder)
-        {
-            return builder;
-        }
+        return builder;
     }
 }

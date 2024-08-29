@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Positron.Delegates;
+using NeuroSpeech.Positron.Delegates;
 
-namespace Positron;
+namespace NeuroSpeech.Positron;
 
 public static class JSValueExtensions
 {

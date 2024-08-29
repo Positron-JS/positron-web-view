@@ -10,7 +10,7 @@ using AndroidUri = Android.Net.Uri;
 using Application = Android.App.Application;
 using AndroidEnvironment = Android.OS.Environment;
 
-namespace Positron.Platforms.Android.Core;
+namespace NeuroSpeech.Positron.Platforms.Android.Core;
 
 static partial class FileSystemUtils
 {

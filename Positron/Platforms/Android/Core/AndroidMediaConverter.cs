@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using OtaliaStudios.TranscoderLib.Strategy;
 using OtaliaStudios.TranscoderLib;
 
-namespace Positron.Platforms.Android.Core;
+namespace NeuroSpeech.Positron.Platforms.Android.Core;
 public enum Preset
 {
     LowQuality = 0,

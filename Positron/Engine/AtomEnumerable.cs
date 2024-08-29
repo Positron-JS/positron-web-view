@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Positron;
+namespace NeuroSpeech.Positron;
 
 
 public class AtomEnumerable :

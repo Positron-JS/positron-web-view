@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Positron;
+namespace NeuroSpeech.Positron;
 public static partial class StringExtensions
 {
 
