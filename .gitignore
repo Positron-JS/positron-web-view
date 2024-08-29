@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+.vs/
+Positron/bin/
+Positron/obj/
+PositronApp/bin/
+PositronApp/obj/
