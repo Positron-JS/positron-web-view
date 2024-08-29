@@ -1,6 +1,8 @@
 # Positron Web View
 An Advanced Web View based Maui Project. This project was inspired from Cordova/Capacitor. However, building native plugins is very time consuming. Maui offers single language to write native plugins easy on any platform. So we decided to create Capacitor for Maui.
 
+![Positron Diagram](./diagram.png)
+
 # Get Started
 [![NuGet](https://img.shields.io/nuget/v/NeuroSpeech.Positron.svg?label=NuGet)](https://www.nuget.org/packages/NeuroSpeech.Positron)
 
