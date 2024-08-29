@@ -42,7 +42,7 @@ Lets assume that we have configured push messaging and we want to retrieve the d
      */
     function getDeviceToken(unread) {
         const Positron = global.clr
-            .resolveType("Positron.Positron, Positron");
+            .resolveType("NeuroSpeech.Positron.Positron, NeuroSpeech.Positron");
         try {
             const Badge = global.clr
                 .resolveType("CommunityToolkit.Maui.ApplicationModel, CommunityToolkit.Maui");
