@@ -7,3 +7,13 @@ function __awaiter(thisArg, _arguments, P, generator) {
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
+
+function __web_atoms_create_promise() {
+    let r;
+    let e;
+    var promise = new Promise((resolve, reject) => {
+        r = resolve;
+        e = reject;
+    });
+    return { r, e, promise };
+}

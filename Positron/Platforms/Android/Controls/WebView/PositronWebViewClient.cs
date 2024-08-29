@@ -14,16 +14,16 @@ using static Android.Views.ViewGroup;
 
 namespace Positron.Platforms.Android.Controls
 {
-    class NativeWebViewClient : MauiWebViewClient
+    class PositronWebViewClient : MauiWebViewClient
     {
         private readonly global::Android.Webkit.WebView platformView;
-        private readonly PositronWebView nativeWebView;
+        private readonly PositronWebView positronWebView;
 
-        public NativeWebViewClient(WebViewHandler handler, PositronWebView nativeWebView) : base(handler)
+        public PositronWebViewClient(WebViewHandler handler, PositronWebView nativeWebView) : base(handler)
         {
 
             this.platformView = handler.PlatformView;
-            this.nativeWebView = nativeWebView;
+            this.positronWebView = nativeWebView;
 
            
         }
@@ -31,14 +31,14 @@ namespace Positron.Platforms.Android.Controls
         public override void OnPageStarted(global::Android.Webkit.WebView? view, string? url, Bitmap? favicon)
         {
             base.OnPageStarted(view, url, favicon);
+            this.positronWebView.Eval(Scripts.Positron);
             KeyboardService.Instance.Refresh();
         }
 
         public override void OnPageFinished(global::Android.Webkit.WebView? view, string? url)
         {
             base.OnPageFinished(view, url);
-            this.nativeWebView.Eval(Scripts.Positron);
-            this.nativeWebView.IsPageReady = true;
+            this.positronWebView.IsPageReady = true;
             KeyboardService.Instance.Refresh();
         }
 

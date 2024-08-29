@@ -7,7 +7,7 @@ using Microsoft.Maui.Platform;
 
 namespace Positron.Controls
 {
-    class NativeWebViewChromeClient : MauiWebChromeClient
+    class PositronWebViewChromeClient : MauiWebChromeClient
     {
         private IDispatcher dispatcher;
         private Context context;
@@ -16,7 +16,7 @@ namespace Positron.Controls
         private ICustomViewCallback? customViewCallback;
         private Action? hideCustomView;
 
-        public NativeWebViewChromeClient(WebViewHandler handler) : base(handler)
+        public PositronWebViewChromeClient(WebViewHandler handler) : base(handler)
         {
             this.dispatcher = Dispatcher.GetForCurrentThread()!;
             this.context = handler.Context;

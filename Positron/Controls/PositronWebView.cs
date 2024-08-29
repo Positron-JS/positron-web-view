@@ -16,6 +16,11 @@ namespace Positron.Controls
             OnStaticPlatformInit();
         }
 
+        /// <summary>
+        /// Return false to deny execution of native script.
+        /// </summary>
+        public Func<string, bool> ShouldInvokeScript { get; set; }
+
         private DisposableList disposables = new DisposableList();
 
         public IJSContext Context { get;set; }
@@ -25,6 +30,8 @@ namespace Positron.Controls
         static  partial void OnStaticPlatformInit();
 
         public GlobalClr Clr { get; }
+
+        private string currentUrl;
 
         public PositronWebView()
         {
@@ -64,6 +71,8 @@ namespace Positron.Controls
             Positron.Instance.OnUrlRequested += Instance_OnUrlRequested;
             Positron.Instance.OnDeviceTokenUpdated+= Instance_OnDeviceTokenUpdated;
 
+            this.Navigating += (s, e) => this.currentUrl = e.Url;
+
         }
 
 
@@ -97,6 +106,15 @@ namespace Positron.Controls
             Dispatcher.DispatchTask( async () => {
                 try
                 {
+                    var s = this.ShouldInvokeScript;
+                    if (s != null)
+                    {
+                        var url = this.currentUrl;
+                        if (!s(url))
+                        {
+                            throw new UnauthorizedAccessException($"Cannot access nativeShell from {url}");
+                        }
+                    }
                     var result = await this.Clr.SerializeAsync(Context.Evaluate(script));
                 } catch (Exception ex) {
                     System.Diagnostics.Debug.WriteLine(ex.ToString());

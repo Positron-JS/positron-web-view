@@ -9,7 +9,7 @@ public partial class App : Application
 		InitializeComponent();
 
 		var mp = new PositronMainPage() {
-			Url = "https://m.800casting.com/ProfileEditor/Agency"
+			Url = "https://socialmail.me"
 		};
 		mp.WebView.UserAgent = "Hybrid-Mobile-App/1.0 Android/1.1";
 

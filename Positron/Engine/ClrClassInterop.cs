@@ -292,9 +292,15 @@ namespace Positron
             for (int i = 0; i < l; i++)
             {
                 var pm = argTypes[i];
+                var vi = args[i];
                 if (i < args.Count)
                 {
-                    p[i] = c.Deserialize(args[i], pm.ParameterType);
+                    if (vi.CanConvertTo(pm.ParameterType, out var cv))
+                    {
+                        p[i] = cv;
+                        continue;
+                    }
+                    p[i] = c.Deserialize(vi, pm.ParameterType);
                     continue;
                 }
                 if(pm.HasDefaultValue)

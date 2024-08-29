@@ -63,8 +63,8 @@ namespace Positron.Controls
             {
                 var webViewHandler = (WebViewHandler)this.Handler;
                 this.PlatformView = webViewHandler.PlatformView;
-                PlatformView.SetWebChromeClient(new NativeWebViewChromeClient(webViewHandler));
-                PlatformView.SetWebViewClient(new NativeWebViewClient(webViewHandler, this));
+                PlatformView.SetWebChromeClient(new PositronWebViewChromeClient(webViewHandler));
+                PlatformView.SetWebViewClient(new PositronWebViewClient(webViewHandler, this));
                 this.PlatformView.AddJavascriptInterface(new JSBridge(this), "androidBridge");
 
                 Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific.Application
