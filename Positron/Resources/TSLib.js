@@ -22,7 +22,7 @@ global.assemblyCache = {};
 global.typeCache = {};
 
 // lets bind clr.resolve to give assembly...
-global.clr.resolve = function (name) {
+global.clr.assembly = function (name) {
     return global.assemblyCache[name] ||= new Proxy({}, {
         get(n) {
             const fullName = `${n}, ${name}`;

@@ -14,12 +14,6 @@ public class GlobalClr
     {
     }
 
-    public Assembly? ResolveAssembly(string assemblyName)
-    {
-        return Assembly.Load(assemblyName);
-    }
-
-
     public Type? ResolveType(string typeName)
     {
         return Type.GetType(typeName);
