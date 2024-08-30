@@ -31,8 +31,7 @@ Lets assume that we have configured push messaging and we want to retrieve the d
 
 ```javascript
 
-    /** This global variable is just for compilation */
-    let global;
+    import PositronInBrowser from "@positron-js/context/index.js";
 
     /** Although syntactically correct, this function
      * will be executed inside Positron's JavaScript Engine.
@@ -40,22 +39,21 @@ Lets assume that we have configured push messaging and we want to retrieve the d
      * 
      * This function cannot contain any closer except `global`;
      */
-    function getDeviceToken(unread) {
-        const Positron = global.clr
-            .resolveType("NeuroSpeech.Positron.Positron, NeuroSpeech.Positron");
-        try {
-            const Badge = global.clr
-                .resolveType("CommunityToolkit.Maui.ApplicationModel, CommunityToolkit.Maui");
-            Badge.default.setCount(u);
-        } catch {
-            // ignore error...
-        }
-        return Positron.instance.deviceToken;
-        
-    }
 
     /** Basically positron.run() will send script text and parameters (as json) to Positron's JavaScript engine*/
-    const deviceToken = await positron.run(getDeviceToken, 0);
+    const deviceToken = await positron.run(function () {
+
+        // this runs inside App's Internal JavaScript Engine
+
+        const NSPositronAssembly = this.clr
+            .assembly("NeuroSpeech.Positron");
+
+        const Positron = NSPositronAssembly
+            // following is fully qualified name
+            .NeuroSpeech.Positron.Positron;
+
+        return Positron.deviceToken;
+    });
 
 ```
 
@@ -63,48 +61,45 @@ Lets assume that we have configured push messaging and we want to retrieve the d
 
 ```javascript
 
-    /** This global variable is just for compilation */
-    let global;
 
-    /** Although syntactically correct, this function
-     * will be executed inside Positron's JavaScript Engine.
-     * And the result will be available after successful execution.
-     * 
-     * This function cannot contain any closer except `global`;
-     */
-    function openUrl(unread) {
-        const Browser = global.clr
-            .resolveType("Microsoft.Maui.ApplicationModel.Browser, Microsoft.Maui.Essentials");
-        await Browser.openAsync(url, "External");
-    }
+    import PositronInBrowser from "@positron-js/context/index.js";
 
-    await openUrl("https://socialmail.me");
+    await PositronInBrowser.run(function (url) {
 
+        const Essentials = this.clr.assembly("Microsoft.Maui.Essentials");
+
+        const Browser = Essentials.Microsoft.ApplicationModel.Browser;
+
+        Browser.default.openAsync(url);
+
+    }, "https://socialmail.me")
 ```
 
 ## Create New Instance
 
+Lets create a new instance of C# object and set it's properties.
+
 ```javascript
 
 
-    /** This global variable is just for compilation */
-    let global;
+    import PositronInBrowser from "@positron-js/context/index.js";
 
-    function openUrl(unread) {
-        /** Types */
-        const BrowserLaunchOptions = global.clr
-            .resolveType("Microsoft.Maui.ApplicationModel.BrowserLaunchOptions, Microsoft.Maui.Essentials");
-        const Color = global.clr
-            .resolveType("Microsoft.Maui.Graphics.Color, Microsoft.Maui.Graphics")
-        const Browser = global.clr
-            .resolveType("Microsoft.Maui.ApplicationModel.Browser, Microsoft.Maui.Essentials");
+    await PositronInBrowser.run(function (url) {
+
+        const Essentials = this.clr.assembly("Microsoft.Maui.Essentials");
+        const Graphics = this.clr.assembly("Microsoft.Maui.Graphics");
+
+        const { Browser, BrowserLaunchOptions } = Essentials
+            .Microsoft.ApplicationModel;
+
+        const { Colors } = Graphics.Microsoft.Maui.Graphics;
 
         const options = new BrowserLaunchOptions();
-        options.preferredToolbarColor = Color.parse("Orange");
-        await Browser.openAsync(url, options);
-    }
+        options.preferredToolbarColor = Colors.orange;
 
-    await openUrl("https://socialmail.me");
+        await Browser.openAsync(url, options);
+
+    }, "https://socialmail.me")
 
 ```
 
