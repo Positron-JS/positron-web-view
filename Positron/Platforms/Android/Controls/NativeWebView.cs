@@ -66,9 +66,18 @@ partial class PositronWebView
             PlatformView.SetWebChromeClient(new PositronWebViewChromeClient(webViewHandler));
             PlatformView.SetWebViewClient(new PositronWebViewClient(webViewHandler, this));
             this.PlatformView.AddJavascriptInterface(new JSBridge(this), "androidBridge");
-
+            this.PlatformView.Settings.MediaPlaybackRequiresUserGesture = false;
+            this.PlatformView.Settings.LoadsImagesAutomatically = true;
+            this.PlatformView.Settings.AllowContentAccess = true;
+            this.PlatformView.Settings.SavePassword = false;
+            this.PlatformView.Settings.SaveFormData = false;
+            this.PlatformView.Settings.SetGeolocationEnabled(true);
             Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific.Application
                 .SetWindowSoftInputModeAdjust(this.Window, WindowSoftInputModeAdjust.Resize);
+
+            BackButtonInterceptor.Instance.InterceptBackButton(() => {
+                this.PlatformView.EvaluateJavascript("typeof androidPressBackButton !== 'undefined' && androidPressBackButton();", null);
+            });
 
         }
     }

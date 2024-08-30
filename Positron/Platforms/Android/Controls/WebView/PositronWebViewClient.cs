@@ -24,8 +24,6 @@ class PositronWebViewClient : MauiWebViewClient
 
         this.platformView = handler.PlatformView;
         this.positronWebView = nativeWebView;
-
-       
     }
 
     public override void OnPageStarted(global::Android.Webkit.WebView? view, string? url, Bitmap? favicon)
