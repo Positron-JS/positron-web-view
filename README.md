@@ -41,7 +41,7 @@ Lets assume that we have configured push messaging and we want to retrieve the d
      */
 
     /** Basically positron.run() will send script text and parameters (as json) to Positron's JavaScript engine*/
-    const deviceToken = await positron.run(function () {
+    const deviceToken = await PositronInBrowser.run(function () {
 
         // this runs inside App's Internal JavaScript Engine
 
