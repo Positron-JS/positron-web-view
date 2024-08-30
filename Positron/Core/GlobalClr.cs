@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace NeuroSpeech.Positron.Core;
 
@@ -11,6 +12,11 @@ public class GlobalClr
 
     public GlobalClr()
     {
+    }
+
+    public Assembly? Resolve(string assemblyName)
+    {
+        return Assembly.Load(assemblyName);
     }
 
 

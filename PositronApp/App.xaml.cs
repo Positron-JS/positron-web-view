@@ -10,7 +10,7 @@ public partial class App : Application
 		InitializeComponent();
 
 		var mp = new PositronMainPage() {
-			Url = "https://socialmail.me"
+			Url = "https://test.castyy.com/"
 		};
 		mp.WebView.UserAgent = "Hybrid-Mobile-App/1.0 Android/1.1";
 
