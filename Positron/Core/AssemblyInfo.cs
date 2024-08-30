@@ -62,6 +62,12 @@ public class AssemblyInfo: IJSProxy
 
         if (this.Children?.TryGetValue(name, out var av) ?? false)
         {
+            // if it is type
+            // we should marshal the type
+            if (av.Type != null)
+            {
+                return context.CreateClass(av.Type);
+            }
             return context.Marshal(av);
         }
 
