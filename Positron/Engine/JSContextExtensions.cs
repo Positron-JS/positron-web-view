@@ -363,7 +363,6 @@ var _$_classes = {};
         return v;
     }
 
-
     /// <summary>
     /// Evaluates `typeof obj` for this and returns appropriate value.
     /// 
@@ -384,17 +383,6 @@ var _$_classes = {};
     // static readonly MethodInfo awaitMethod = typeof(JSContextExtensions).GetMethod("Await");
 
     static readonly MethodInfo awaitPromiseMethod = typeof(JSContextExtensions).GetMethod("AwaitPromise");
-
-    /// <summary>
-    /// Broadcast message on channel to receive it inside ViewModel in JavaScript
-    /// </summary>
-    /// <param name="context"></param>
-    /// <param name="channel"></param>
-    /// <param name="data"></param>
-    public static void Broadcast(this IJSContext context, string channel, IJSValue data)
-    {
-        context["bridge"].InvokeMethod("broadcast", context.CreateString(channel), data);
-    }
 
     public static IJSValue CreateDisposableAction(this IJSContext context, Action dispose)
     {
@@ -467,6 +455,11 @@ var _$_classes = {};
         if (valueToCopy is Type type)
         {
             return context.CreateClass(type);
+        }
+
+        if (valueToCopy is IJSProxy proxy)
+        {
+            return context.CreateProxy(proxy);
         }
 
         type = valueToCopy.GetType();

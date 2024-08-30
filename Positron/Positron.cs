@@ -15,6 +15,9 @@ public enum LogType
 
 public class Positron
 {
+
+    public static string Version = "1.0";
+
     private readonly WeakEventManager OnUrlRequestedEventManager = new WeakEventManager();
     private readonly WeakEventManager OnDeviceTokenUpdatedEventManager = new WeakEventManager();
 

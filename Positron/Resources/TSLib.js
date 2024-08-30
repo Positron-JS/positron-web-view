@@ -18,22 +18,8 @@ function __web_atoms_create_promise() {
     return { r, e, promise };
 }
 
-global.assemblyCache = {};
-global.typeCache = {};
+// let us verify if clr.assembly is working...
 
-// lets bind clr.resolve to give assembly...
-global.clr.assembly = function (name) {
-    let cached = global.assemblyCache[name];
-    if (cached) {
-        return cached;
-    }
-    const nsList = global.clr.getNamespaces(name);
-    cached = new Proxy({}, {
-        get(n) {
-            const fullName = `${n}, ${name}`;
-            return global.typeCache[fullName] ||= global.clr.resolveType(fullName);
-        }
-    });
-    global.assemblyCache[name] = cached;
-    return cached;
+if (typeof global.clr.assembly("NeuroSpeech.Positron").NeuroSpeech.Positron.Positron.version !== "string") {
+    throw new Error("clr not available");
 }

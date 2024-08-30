@@ -39,7 +39,7 @@ namespace NeuroSpeech.Positron.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Positron.Resources.Scripts", typeof(Scripts).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NeuroSpeech.Positron.Resources.Scripts", typeof(Scripts).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -73,9 +73,9 @@ namespace NeuroSpeech.Positron.Resources {
         ///                let result = ($code$).apply({ clr, evalInPage }, a);
         ///                if (result &amp;&amp; result.then) {
         ///                    result.then((r) =&gt; {
-        ///                        evalInPage(`window.nositron.on($rid$, ${serialize(r) || 1})`);
+        ///                        evalInPage(`window.positron.on($rid$, ${serialize(r) || 1})`);
         ///                    }, (e) =&gt; {
-        ///                        evalInPage(` [rest of string was truncated]&quot;;.
+        ///                        evalInPage(`win [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Positron {
             get {

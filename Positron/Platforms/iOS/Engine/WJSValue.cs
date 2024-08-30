@@ -38,6 +38,8 @@ public class WJSValue : IJSValue
 
     public bool IsArray => this.value.IsArray;
 
+    public bool IsSymbol => this.value.IsSymbol;
+
     public bool IsWrapped {
         get {
             if (!this.value.IsObject)

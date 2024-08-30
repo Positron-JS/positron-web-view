@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PackageId>NeuroSpeech.Positron</PackageId>
 		<AssemblyName>NeuroSpeech.Positron</AssemblyName>
+		<RootNamespace>NeuroSpeech.Positron</RootNamespace>
 		<Version>1.0.1</Version>
 		<Nullable>enable</Nullable>
 		<SingleProject>true</SingleProject>

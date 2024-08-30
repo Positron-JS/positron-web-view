@@ -292,9 +292,9 @@ public class ClrClassInterop
         for (int i = 0; i < l; i++)
         {
             var pm = argTypes[i];
-            var vi = args[i];
             if (i < args.Count)
             {
+                var vi = args[i];
                 if (vi.CanConvertTo(pm.ParameterType, out var cv))
                 {
                     p[i] = cv;

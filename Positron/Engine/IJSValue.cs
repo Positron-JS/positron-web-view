@@ -86,6 +86,8 @@ public interface IJSValue
     /// </summary>
     bool IsWrapped { get; }
 
+    bool IsSymbol { get; }
+
     /// <summary>
     /// Boolean value
     /// </summary>
