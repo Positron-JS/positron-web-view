@@ -23,10 +23,17 @@ global.typeCache = {};
 
 // lets bind clr.resolve to give assembly...
 global.clr.assembly = function (name) {
-    return global.assemblyCache[name] ||= new Proxy({}, {
+    let cached = global.assemblyCache[name];
+    if (cached) {
+        return cached;
+    }
+    const nsList = global.clr.getNamespaces(name);
+    cached = new Proxy({}, {
         get(n) {
             const fullName = `${n}, ${name}`;
             return global.typeCache[fullName] ||= global.clr.resolveType(fullName);
         }
     });
+    global.assemblyCache[name] = cached;
+    return cached;
 }

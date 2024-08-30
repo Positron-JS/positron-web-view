@@ -1,9 +1,81 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Json;
+using System.Text.Json.Serialization;
 
 namespace NeuroSpeech.Positron.Core;
 
-public class GlobalClr
+public class TypeNamespace
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("types")]
+    public List<string> Types { get; } = new List<string>();
+
+    public TypeNamespace(string name)
+    {
+        this.Name = name;
+    }
+}
+
+public class AssemblyInfo
+{
+    public AssemblyInfo(string name,
+        AssemblyInfo? parent = null,
+        Type? type = null
+        ) {
+        this.Parent = parent;
+        this.Name = name;
+        this.Fullname = parent == null
+            ? this.Name
+            : $"{this.Parent}.${this.Name}";
+        this.Type = type;
+
+        if (this.Parent != null)
+        {
+            var c = this.Parent.Children ??= new Dictionary<string, AssemblyInfo>();
+            c[this.Name] = this;
+        }
+    }
+
+    public AssemblyInfo? Parent { get; }
+    public string Name { get; }
+    public string Fullname { get; }
+    public Type? Type { get; }
+    
+    public Dictionary<string, AssemblyInfo>? Children { get; private set; }
+
+    public Type Resolve(string name)
+    {
+        if (Children == null)
+        {
+            throw new InvalidOperationException($"Type {name} not found in {this.Fullname}");
+        }
+        if(Children.TryGetValue(name, out var value))
+        {
+            if (value.Type != null)
+            {
+                return value.Type;
+            }
+        }
+        throw new InvalidOperationException($"Type {name} not found in {this.Fullname}");
+    }
+
+    internal AssemblyInfo GetOrCreate(string token)
+    {
+        this.Children ??= new();
+        return this.Children.GetOrCreate(token, (x) => new AssemblyInfo(x, this));
+    }
+
+    internal void AddType(Type type)
+    {
+        this.Children ??= new();
+        this.Children.Add(type.Name, new AssemblyInfo(type.Name, this, type));
+    }
+}
+
+    public class GlobalClr
 {
 
     private static long rID = 1;
@@ -12,6 +84,29 @@ public class GlobalClr
 
     public GlobalClr()
     {
+    }
+
+    public AssemblyInfo GetNamespaces(string assemblyName)
+    {
+        var assembly = Assembly.Load(assemblyName);
+        var a = new AssemblyInfo("");
+        foreach(var type in assembly.GetExportedTypes())
+        {
+            if (!type.IsPublic)
+            {
+                continue;
+            }
+            if (type.Namespace?.Length > 0)
+            {
+                var root = a;
+                foreach(var token in type.Namespace.Split("."))
+                {
+                    root = root.GetOrCreate(token);
+                }
+                root.AddType(type);
+            }
+        }
+        return a;
     }
 
     public Type? ResolveType(string typeName)
@@ -189,4 +284,5 @@ public class GlobalClr
         }
         return Serialize<object>(obj);
     }
+}
 }
