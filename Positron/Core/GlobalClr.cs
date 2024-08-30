@@ -14,7 +14,7 @@ public class GlobalClr
     {
     }
 
-    public Assembly? Resolve(string assemblyName)
+    public Assembly? ResolveAssembly(string assemblyName)
     {
         return Assembly.Load(assemblyName);
     }

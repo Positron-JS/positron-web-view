@@ -38,10 +38,10 @@ public partial class PositronWebView : WebView
         Context = JSContextFactory.Instance.Create();
         this.Clr = new GlobalClr();
 
+        Context["clr"] = Context.Marshal(Clr);
+
         // Need to invoke TSLib in the global context...
         Context.Evaluate(Scripts.TSLib, "tslib.js");
-
-        Context["clr"] = Context.Marshal(Clr);
 
         Context["serialize"] = Context.CreateFunction(1, (c, s) => {
             try

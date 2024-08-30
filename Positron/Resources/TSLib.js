@@ -17,3 +17,16 @@ function __web_atoms_create_promise() {
     });
     return { r, e, promise };
 }
+
+global.assemblyCache = {};
+global.typeCache = {};
+
+// lets bind clr.resolve to give assembly...
+global.clr.resolve = function (name) {
+    return global.assemblyCache[name] ||= new Proxy({}, {
+        get(n) {
+            const fullName = `${n}, ${name}`;
+            return global.typeCache[fullName] ||= global.clr.resolveType(fullName);
+        }
+    });
+}
