@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YantraJS.Core;
 using YantraJS.Core.Clr;
+using YantraJS.Emit;
 using ErrorEventArgs = NeuroSpeech.Positron.ErrorEventArgs;
 
 namespace YantraJS.Core;
@@ -86,7 +87,18 @@ public partial class JSContext : IJSContext
 
     public IJSValue Evaluate(string script, string location = null)
     {
-        return CoreScript.Evaluate(script, location);
+        using var s = this.SetTemporaryCodeCache();
+        return this.Eval(script, location);
+    }
+
+    private IDisposable SetTemporaryCodeCache()
+    {
+        var oldCodeCache = this.CodeCache;
+        this.CodeCache = new DictionaryCodeCache();
+        return new DisposableAction(() =>
+        {
+            this.CodeCache = oldCodeCache;
+        });
     }
 
     public void RunOnUIThread(Func<Task> task)
