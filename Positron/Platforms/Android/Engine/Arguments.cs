@@ -27,7 +27,6 @@ public readonly partial struct Arguments {
 
     public Arguments(IJSValue[] args)
     {
-        NewTarget = null;
         This = JSUndefined.Value;
         Length = args.Length;
         switch (Length)
@@ -80,7 +79,6 @@ public readonly partial struct Arguments {
 
     public Arguments(IJSValue thisArg, IJSValue[] args)
     {
-        NewTarget = null;
         This = thisArg.ToJSValue();
         Length = args.Length;
         switch (Length)

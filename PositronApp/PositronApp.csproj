@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-ios;net8.0-android;</TargetFrameworks>
+		<TargetFrameworks>net9.0-ios;net9.0-android;</TargetFrameworks>
 		<!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks> -->
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
@@ -31,7 +31,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 		<UseInterpreter>True</UseInterpreter>
 	</PropertyGroup>
 
@@ -43,7 +43,7 @@
 	</PropertyGroup>
 
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios'">
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
 		<MtouchLink>None</MtouchLink>
 		<EnableSGenConc>true</EnableSGenConc>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -52,11 +52,11 @@
 
 
 	<!-- For Android Push Notifications -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
-		<PackageReference Include="Xamarin.AndroidX.Collection" Version="1.3.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.3.0.1" />
-		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="2.0.0.1" ExcludeAssets="build;buildTransitive" />
-		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="2.0.0.1" ExcludeAssets="build;buildTransitive" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+		<PackageReference Include="Xamarin.AndroidX.Collection" Version="1.5.0.2" />
+		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.5.0.2" />
+		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="2.2.0" ExcludeAssets="build;buildTransitive" />
+		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="2.2.0" ExcludeAssets="build;buildTransitive" />
 		<!--<GoogleServicesJson Include="config\google-services.json" />-->
 	</ItemGroup>
 
@@ -80,10 +80,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Positron\Positron.csproj" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
-		<PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.80" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.81" />
+		<PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.81" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
 
 	</ItemGroup>
 

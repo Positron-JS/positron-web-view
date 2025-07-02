@@ -1,11 +1,12 @@
 ﻿using Android.Content;
 using Android.Locations;
 using Android.Webkit;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using MimeKit;
 using NeuroSpeech.Positron.Platforms.Android.Core;
+using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+
 
 namespace NeuroSpeech.Positron.Controls;
 
@@ -227,7 +228,10 @@ class PositronWebViewChromeClient : MauiWebChromeClient
         var grid = webView.Parent as Grid;
         if (grid != null)
         {
-            var v = view.ToView();
+            // var v = new AndroidNativeViewElement(view);
+            var v =  view.ToView();
+            // var v = new NativeViewWrapper(view);
+            // var v = new Microsoft.Maui.Controls.Compatibility.Platform.Android.
             v.HorizontalOptions = LayoutOptions.Fill;
             v.VerticalOptions = LayoutOptions.Fill;
             grid.Children.Add(v);
