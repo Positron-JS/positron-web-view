@@ -53,10 +53,10 @@
 
 	<!-- For Android Push Notifications -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
-		<PackageReference Include="Xamarin.AndroidX.Collection" Version="1.5.0.2" />
-		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.5.0.2" />
-		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="2.2.0" ExcludeAssets="build;buildTransitive" />
-		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="2.2.0" ExcludeAssets="build;buildTransitive" />
+		<PackageReference Include="Xamarin.AndroidX.Collection" Version="1.5.0.3" />
+		<PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.5.0.3" />
+		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="2.2.0.1" ExcludeAssets="build;buildTransitive" />
+		<PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="2.2.0.1" ExcludeAssets="build;buildTransitive" />
 		<!--<GoogleServicesJson Include="config\google-services.json" />-->
 	</ItemGroup>
 
@@ -80,10 +80,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Positron\Positron.csproj" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.81" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
 		<PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.81" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
 
 	</ItemGroup>
 
