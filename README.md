@@ -61,7 +61,6 @@ Lets assume that we have configured push messaging and we want to retrieve the d
 
 ```javascript
 
-
     import PositronInBrowser from "@positron-js/context/index.js";
 
     await PositronInBrowser.run(function (url) {
@@ -80,7 +79,6 @@ Lets assume that we have configured push messaging and we want to retrieve the d
 Lets create a new instance of C# object and set it's properties.
 
 ```javascript
-
 
     import PositronInBrowser from "@positron-js/context/index.js";
 
