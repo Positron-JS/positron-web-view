@@ -14,6 +14,10 @@ public class PositronMainPage: ContentPage
 
     public string? Url { get; set; }
 
+    public string? SplashUrl { get; set; }
+
+    public string? SplashHtml { get; set; }
+
     public PositronMainPage()
     {
         WebView = new PositronWebView() {
@@ -24,6 +28,15 @@ public class PositronMainPage: ContentPage
         var grid = new Grid();
         grid.Children.Add(WebView);
         this.Content = grid;
+
+        if (this.SplashUrl != null)
+        {
+            WebView.Source = new UrlWebViewSource { Url = this.SplashUrl };
+        }
+        else if (this.SplashHtml != null) {
+            WebView.Source = new HtmlWebViewSource {  Html = this.SplashHtml };
+        }
+
         // this.Content = WebView;
         Dispatcher.DispatchTaskDelayed(TimeSpan.FromMilliseconds(1), this.Ask);
     }
