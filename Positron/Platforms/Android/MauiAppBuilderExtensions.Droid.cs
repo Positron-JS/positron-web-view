@@ -18,7 +18,7 @@ public static partial class MauiAppBuilderExtensions
         builder.ConfigureLifecycleEvents(events =>
         {
             events.AddAndroid(android => android.OnCreate((activity, _) => {
-                CrossFirebase.Initialize(activity, CreateCrossFirebaseSettings());
+                CrossFirebase.Initialize(activity, () => activity, CreateCrossFirebaseSettings());
                 activity.RunOnUiThread(async () => {
                     try {
                         CrossFirebaseCloudMessaging.Current.TokenChanged += (s, e) => {
