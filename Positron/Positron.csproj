@@ -44,11 +44,11 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.31" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
 		<PackageReference Include="YantraJS.ExpressionCompiler" Version="1.2.286" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.100" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.31" />
 		<PackageReference Include="YantraJS.JSClassGenerator" Version="1.2.286" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
-		<PackageReference Include="Plugin.Firebase" Version="3.1.4" />
+		<PackageReference Include="Plugin.Firebase" Version="4.0.0" />
 		<PackageReference Include="Karamunting.Android.Natario1.Transcoder" Version="0.9.1" />
 	</ItemGroup>
 
