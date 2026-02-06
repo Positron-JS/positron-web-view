@@ -1,11 +1,6 @@
-﻿using Java.Lang;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OtaliaStudios.TranscoderLib.Strategy;
-using OtaliaStudios.TranscoderLib;
+﻿using AndroidX.Media3.Common;
+using AndroidX.Media3.Effect;
+using AndroidX.Media3.Transformer;
 
 namespace NeuroSpeech.Positron.Platforms.Android.Core;
 public enum Preset
@@ -23,59 +18,80 @@ public enum Preset
 public class AndroidHybridMedia
 {
     public static async Task<string> EncodeMP4Async(
+        global::Android.Content.Context context,
         string inputFile,
         Preset? preset,
         Action<double> progress,
         System.Threading.CancellationToken cancelToken)
     {
-        DefaultVideoStrategy.Builder? vs = null;
 
+        var inputMediaFile = global::Android.Net.Uri.FromFile(new Java.IO.File(inputFile));
+
+        var inputMedia = MediaItem.FromUri(inputFile);
+
+        var bitRate = 1024 * 1024;
+        var targetHeight = 480;
 
         var p = preset ?? Preset.Passthrough;
         switch (p)
         {
             case Preset.LowQuality:
             case Preset.Preset640x480:
-                vs = DefaultVideoStrategy
-                    .AtMost(680, 480)
-                    .BitRate(1024 * 1024);
                 break;
             case Preset.Preset960x540:
-                vs = DefaultVideoStrategy.AtMost(960, 540)
-                    .BitRate(2 * 1024 * 1024);
+                bitRate = 2 * 1024 * 1024;
+                targetHeight = 540;
                 break;
             case Preset.MediumQuality:
             case Preset.Passthrough:
             case Preset.Preset1280x720:
-                vs = DefaultVideoStrategy.AtMost(1280, 720)
-                    .BitRate(4 * 1024 * 1024);
+                bitRate = 4 * 1024 * 1024;
+                targetHeight = 720;
                 break;
             case Preset.HighestQuality:
             case Preset.Preset1920x1080:
-                vs = DefaultVideoStrategy.AtMost(1920, 1080)
-                    .BitRate(5 * 1024 * 1024);
+                bitRate = 5 * 1024 * 1024;
+                targetHeight = 1080;
                 break;
             case Preset.Preset3840x2160:
-                vs = DefaultVideoStrategy.AtMost(3840, 2160)
-                    .BitRate(8 * 1024 * 1024);
+                bitRate = 8 * 1024 * 1024;
+                targetHeight = 2160;
                 break;
         }
 
-        var listener = new TranscoderListener(progress);
+        var ef = new DefaultEncoderFactory.Builder(context)
+            .SetRequestedVideoEncoderSettings(new VideoEncoderSettings.Builder().SetBitrate(bitRate).Build())
+            .Build();
+
+        var listneer = new TranscoderListener();
+
+        var transformer = new Transformer.Builder(context)
+            .SetEncoderFactory(ef)
+            .SetVideoMimeType(MimeTypes.VideoH264)
+            .SetAudioMimeType(MimeTypes.AudioAac)
+            .AddListener(listneer)
+            .Build();
+
+        var videoEffects = new Effects(new List<global::AndroidX.Media3.Common.Audio.IAudioProcessor>() {  },
+            new System.Collections.Generic.List<global::AndroidX.Media3.Common.IEffect>() { Presentation.CreateForHeight(targetHeight) });
+
+        var editedItem = new EditedMediaItem.Builder(inputMedia)
+                .SetEffects(videoEffects)
+                .Build();
+
         var outputFile = new Java.IO.File(FilePickerService.CreateTmpFile("video.mp4"));
-        var tr = Transcoder.Into(outputFile.CanonicalPath)
-            .AddDataSource(inputFile);
-        if (vs != null)
+        transformer.Start(editedItem, outputFile.Path);
+
+        var pg = new ProgressHolder();
+
+        while(!listneer.Task.IsCompleted)
         {
-            tr = tr.SetVideoTrackStrategy(vs.Build());
+            await Task.Delay(1000);
+            // get progress...
+            transformer.GetProgress(pg);
+
+            progress((double)pg.Progress / 100);
         }
-        var future = tr
-            .SetListener(listener)
-            .Transcode();
-
-        cancelToken.Register(() => future.Cancel(true));
-
-        await listener.Task;
 
         if (outputFile.Length() == 0)
         {
@@ -86,7 +102,8 @@ public class AndroidHybridMedia
         return outputFile.CanonicalPath;
     }
 
-    internal class TranscoderListener : Java.Lang.Object, ITranscoderListener
+    internal class TranscoderListener : Java.Lang.Object
+        ,Transformer.IListener
     {
         private readonly TaskCompletionSource<int> source;
         private readonly Action<double>? progressAction;
@@ -99,24 +116,14 @@ public class AndroidHybridMedia
             this.progressAction = progressAction;
         }
 
-        public void OnTranscodeCanceled()
+        void Transformer.IListener.OnCompleted(Composition? composition, ExportResult? exportResult)
         {
-            this.source.TrySetCanceled();
+            source.TrySetResult(0);
         }
 
-        public void OnTranscodeCompleted(int successCode)
+        void Transformer.IListener.OnError(Composition? composition, ExportResult? exportResult, ExportException? exportException)
         {
-            this.source.TrySetResult(successCode);
-        }
-
-        public void OnTranscodeFailed(Throwable exception)
-        {
-            this.source.TrySetException(exception);
-        }
-
-        public void OnTranscodeProgress(double progress)
-        {
-            progressAction?.Invoke(progress);
-        }
+            source.TrySetException(exportException ?? new System.Exception("Unknown exception"));
+        }        
     }
 }

@@ -45,11 +45,12 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
-		<PackageReference Include="YantraJS.ExpressionCompiler" Version="1.2.286" />
+		<PackageReference Include="YantraJS.ExpressionCompiler" Version="1.2.301" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.31" />
-		<PackageReference Include="YantraJS.JSClassGenerator" Version="1.2.286" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<PackageReference Include="YantraJS.JSClassGenerator" Version="1.2.301" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<PackageReference Include="Plugin.Firebase" Version="4.0.0" />
-		<PackageReference Include="Karamunting.Android.Natario1.Transcoder" Version="0.9.1" />
+		<PackageReference Include="Xamarin.AndroidX.Media3.Common" Version="1.9.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.Media3.Transformer" Version="1.9.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
