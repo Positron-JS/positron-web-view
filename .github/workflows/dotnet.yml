@@ -37,9 +37,7 @@ jobs:
       run: dotnet pack ./Positron/Positron.csproj --no-restore
 
     - name: Publish Eternity
-      run: dotnet nuget push **/*.nupkg -k ${NUGET_TOKEN} -s https://api.nuget.org/v3/index.json --no-symbols
-      env:
-         NUGET_TOKEN: ${{secrets.PUBLIC_NUGET_TOKEN}}
+      run: dotnet nuget push **/*.nupkg -s https://api.nuget.org/v3/index.json --no-symbols
 
     - name: Create tag
       uses: actions/github-script@v6
