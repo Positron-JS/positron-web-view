@@ -11,7 +11,7 @@
 		<SingleProject>true</SingleProject>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">16.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">17.2</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
@@ -50,7 +50,7 @@
 		<PackageReference Include="YantraJS.ExpressionCompiler" Version="1.2.301" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.31" />
 		<PackageReference Include="YantraJS.JSClassGenerator" Version="1.2.301" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
-		<PackageReference Include="Plugin.Firebase" Version="4.0.0" />
+		<PackageReference Include="Xamarin.Firebase.Messaging" Version="125.0.1.1" />
 		<PackageReference Include="Xamarin.AndroidX.Media3.Common" Version="1.9.0.1" />
 		<PackageReference Include="Xamarin.AndroidX.Media3.Transformer" Version="1.9.0.1" />
 	</ItemGroup>
