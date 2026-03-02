@@ -1,8 +1,5 @@
-﻿using Microsoft.Maui.LifecycleEvents;
-using Plugin.Firebase.Auth;
-using Plugin.Firebase.Bundled.Platforms.Android;
-using Plugin.Firebase.Bundled.Shared;
-using Plugin.Firebase.CloudMessaging;
+﻿using Firebase.Messaging;
+using Microsoft.Maui.LifecycleEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +8,23 @@ using System.Threading.Tasks;
 
 namespace NeuroSpeech.Positron;
 
+
+class SuccessListener : Java.Lang.Object, Android.Gms.Tasks.IOnSuccessListener
+{
+    private readonly Action<string> action;
+
+    public SuccessListener(Action<string> action)
+    {
+        this.action = action;
+    }
+
+
+    public void OnSuccess(Java.Lang.Object? result)
+    {
+        this.action(result!.ToString());
+    }
+}
+
 public static partial class MauiAppBuilderExtensions
 {
     public static MauiAppBuilder RegisterPushServices(this MauiAppBuilder builder)
@@ -18,14 +32,13 @@ public static partial class MauiAppBuilderExtensions
         builder.ConfigureLifecycleEvents(events =>
         {
             events.AddAndroid(android => android.OnCreate((activity, _) => {
-                CrossFirebase.Initialize(activity, CreateCrossFirebaseSettings());
-                activity.RunOnUiThread(async () => {
+                // CrossFirebase.Initialize(activity, () => activity, CreateCrossFirebaseSettings());
+                activity.RunOnUiThread(() => {
                     try {
-                        CrossFirebaseCloudMessaging.Current.TokenChanged += (s, e) => {
-                            Positron.Instance.DeviceToken = e.Token;
-                        };
-                        var token = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
-                        Positron.Instance.DeviceToken = token;
+                        FirebaseMessaging.Instance.GetToken()
+                            .AddOnSuccessListener(activity, new SuccessListener((token) => {
+                                Positron.Instance.DeviceToken = token;
+                            }));
                     } catch (Exception ex) {
                         System.Diagnostics.Debug.WriteLine(ex);
                     }
@@ -34,12 +47,12 @@ public static partial class MauiAppBuilderExtensions
             }
             ));
         });
-        builder.Services.AddSingleton(_ => CrossFirebaseAuth.Current);
+        // builder.Services.AddSingleton(_ => CrossFirebaseAuth.Current);
         return builder;
     }
 
-    private static CrossFirebaseSettings CreateCrossFirebaseSettings()
-    {
-        return new CrossFirebaseSettings(isAuthEnabled: true);
-    }
+    //private static CrossFirebaseSettings CreateCrossFirebaseSettings()
+    //{
+    //    return new CrossFirebaseSettings(isAuthEnabled: true);
+    //}
 }

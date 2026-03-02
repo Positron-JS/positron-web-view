@@ -159,7 +159,7 @@ class PositronWebViewChromeClient : MauiWebChromeClient
                         var oldFile = tempFile;
                         try
                         {
-                            tempFile = await AndroidHybridMedia.EncodeMP4Async(tempFile, Preset.MediumQuality, (n) =>
+                            tempFile = await AndroidHybridMedia.EncodeMP4Async(webView.Context, tempFile, Preset.MediumQuality, (n) =>
                             {
                                 double progressValue = 0;
                                 lock (progressMap)

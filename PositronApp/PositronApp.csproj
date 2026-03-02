@@ -80,10 +80,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Positron\Positron.csproj" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.31" />
 		<PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.81" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.2" />
 
 	</ItemGroup>
 

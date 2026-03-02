@@ -1,12 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Plugin.Firebase.CloudMessaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Firebase.Messaging;
 
 namespace NeuroSpeech.Positron;
 
@@ -27,7 +22,16 @@ public class PositronMainActivity: MauiAppCompatActivity
 
     protected virtual void HandleIntent(Intent intent)
     {
-        FirebaseCloudMessagingImplementation.OnNewIntent(intent);
+        // FirebaseCloudMessagingImplementation.OnNewIntent(intent);
+        // FirebaseMessaging.Instance.
+        if (intent?.HasExtra("action") == true)
+        {
+            var action = intent.GetStringExtra("action");
+            if (!string.IsNullOrEmpty(action))
+            {
+                Positron.Instance.MessageAction = action;
+            }
+        }
     }
 
     protected virtual void CreateNotificationChannelIfNeeded()
@@ -44,7 +48,7 @@ public class PositronMainActivity: MauiAppCompatActivity
         var notificationManager = (NotificationManager)GetSystemService(NotificationService);
         var channel = new NotificationChannel(channelId, "General", NotificationImportance.Default);
         notificationManager.CreateNotificationChannel(channel);
-        FirebaseCloudMessagingImplementation.ChannelId = channelId;
+        // FirebaseCloudMessagingImplementation.ChannelId = channelId;
         //FirebaseCloudMessagingImplementation.SmallIconRef = Resource.Drawable.ic_push_small;
     }
 }

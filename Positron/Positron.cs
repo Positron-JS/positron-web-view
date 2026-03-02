@@ -20,16 +20,24 @@ public class Positron
 
     private readonly WeakEventManager OnUrlRequestedEventManager = new WeakEventManager();
     private readonly WeakEventManager OnDeviceTokenUpdatedEventManager = new WeakEventManager();
+    private readonly WeakEventManager OnMessageActionUpdatedEventManager = new WeakEventManager();
 
     public event EventHandler? OnUrlRequested
     {
         add => OnUrlRequestedEventManager.AddEventHandler(value);
         remove => OnUrlRequestedEventManager.RemoveEventHandler(value);
     }
+
     public event EventHandler? OnDeviceTokenUpdated
     {
         add => OnDeviceTokenUpdatedEventManager.AddEventHandler(value);
         remove => OnDeviceTokenUpdatedEventManager.RemoveEventHandler(value);
+    }
+
+    public event EventHandler? OnMessageActionUpdated
+    {
+        add => OnMessageActionUpdatedEventManager.AddEventHandler(value);
+        remove => OnMessageActionUpdatedEventManager.RemoveEventHandler(value);
     }
 
     public static Positron Instance { get; } = new Positron();
@@ -42,6 +50,17 @@ public class Positron
             OnDeviceTokenUpdatedEventManager?.HandleEvent(this, EventArgs.Empty, nameof(OnDeviceTokenUpdated));
         }
     }
+
+    public string? MessageAction
+    {
+        get => messageAction;
+        set
+        {
+            messageAction = value;
+            OnMessageActionUpdatedEventManager?.HandleEvent(this, EventArgs.Empty, nameof(OnDeviceTokenUpdated));
+        }
+    }
+
     public string? UrlRequested
     {
         get => urlRequested;
@@ -56,4 +75,5 @@ public class Positron
 
     private string? deviceToken;
     private string? urlRequested;
+    private string? messageAction;
 }
