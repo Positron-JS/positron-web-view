@@ -23,25 +23,16 @@ class KeyboardService
         {
             var eventName = "keyboardHidden";
             var keyboard = "hidden";
-            var styleHeight = "''";
-            var stylePosition = "''";
             if (height > 0)
             {
                 keyboard = "visible";
                 eventName = "keyboardVisible";
-                styleHeight = "window.visualViewport.height + 'px'";
-                stylePosition = "'absolute'";
             }
             webView.Eval(@$"
 setTimeout(() => {{
-    document.body.dataset.keyboard = '{keyboard}';
-    document.body.dataset.keyboardHeight = {height};
+    document.body.setAttribute('ios-keyboard', '{keyboard}');
+    document.body.setAttribute('ios-keyboard-height', '{height}');
     document.body.dispatchEvent(new CustomEvent('{eventName}', {{ bubbles: true, detail: {{ height: {height} }} }}));
-    document.body.style.height = {styleHeight};
-    document.body.style.position = {stylePosition};
-    if ({height}) {{
-        window.scrollTo(0,0);
-    }}
 }}, 1);
 ");
         }
