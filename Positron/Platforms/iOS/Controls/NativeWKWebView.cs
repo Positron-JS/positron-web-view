@@ -68,21 +68,21 @@ internal class NativeWKWebView : MauiWKWebView
         WebViewHandler handler,
         WKWebViewConfiguration configuration) : base(frame, handler, Init(configuration))
     {
-        var viewPortScript = @"
-            window.visualViewport.addEventListener(""scroll"", (e) => {{
-                const vp = window.visualViewport;
-                window.scrollBy({
-                    left: -vp.offsetLeft,
-                    top: -vp.offsetTop,
-                    behavior: ""instant""
-                });
-            }});
-            window.visualViewport.addEventListener(""resize"", () => {
-                document.body.style.position = ""absolute"";
-                document.body.style.height = window.visualViewport.height + ""px"";
-                document.body.style.width = window.visualViewport.width + ""px"";
-            });
-        ";
+        //var viewPortScript = @"
+        //    window.visualViewport.addEventListener(""scroll"", (e) => {{
+        //        const vp = window.visualViewport;
+        //        window.scrollBy({
+        //            left: -vp.offsetLeft,
+        //            top: -vp.offsetTop,
+        //            behavior: ""instant""
+        //        });
+        //    }});
+        //    window.visualViewport.addEventListener(""resize"", () => {
+        //        document.body.style.position = ""absolute"";
+        //        document.body.style.height = window.visualViewport.height + ""px"";
+        //        document.body.style.width = window.visualViewport.width + ""px"";
+        //    });
+        //";
         this.Inspectable = true;
         if (handler.VirtualView is PositronWebView nativeWebView)
         {
@@ -98,7 +98,7 @@ internal class NativeWKWebView : MauiWKWebView
                     a("queued");
                 }), WKContentWorld.Page, "mainScript");
 
-                nwc.AddUserScript(new WKUserScript((NSString)viewPortScript, WKUserScriptInjectionTime.AtDocumentEnd, true));
+                // nwc.AddUserScript(new WKUserScript((NSString)viewPortScript, WKUserScriptInjectionTime.AtDocumentEnd, true));
 
             }
         }
