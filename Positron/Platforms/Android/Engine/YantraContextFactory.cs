@@ -20,7 +20,7 @@ partial class JSContextFactory
         private JSContext CreateContext()
         {
             var c = new JSContext();
-            c[KeyStrings.global] = c;
+            c[KeyString.global] = c;
             return c;
         }
 

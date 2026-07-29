@@ -19,8 +19,8 @@ public partial class JSValue : IJSValue
 {
     IJSValue IJSValue.this[string name]
     {
-        get => this[name];
-        set => this[name] = value.ToJSValue();
+        get => this[name.ToKeyString()];
+        set => this[name.ToKeyString()] = value.ToJSValue();
     }
     IJSValue IJSValue.this[IJSValue keyOrSymbol]
     {
@@ -145,20 +145,20 @@ public partial class JSValue : IJSValue
         var pAttributes = pt;
         var target = this as JSObject;
         ref var ownProperties = ref target.GetOwnProperties();
-        KeyString key = name;
-        ownProperties[key.Key] = new JSProperty(key, pget, pset, pvalue, pAttributes);
+        KeyString key = name.ToKeyString();
+        ownProperties.Put((uint)key) = new JSProperty(key, pget, pset, pvalue, pAttributes);
     }
 
     public bool DeleteProperty(string name)
     {
-        return this.Delete(name).BooleanValue;
+        return this.Delete(name.ToKeyString()).BooleanValue;
     }
 
     public bool HasProperty(string name)
     {
         ref var ownProperties = ref (this as JSObject).GetOwnProperties();
-        KeyString key = name;
-        return ownProperties.HasKey(key.Key);
+        KeyString key = name.ToKeyString();
+        return ownProperties.HasKey((uint)key);
     }
 
     public IJSValue InvokeFunction(IJSValue thisValue, params IJSValue[] args)
@@ -219,21 +219,21 @@ public partial class JSValue : IJSValue
 
     public IJSValue InvokeMethod(string name, params IJSValue[] args)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, args);
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this);
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, (JSValue)arg1);
         return fx(a);
 
@@ -241,49 +241,49 @@ public partial class JSValue : IJSValue
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, (JSValue)arg1, (JSValue) arg2);
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2, IJSValue arg3)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, (JSValue)arg1, (JSValue)arg2, (JSValue) arg3);
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2, IJSValue arg3, IJSValue arg4)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, (JSValue)arg1, (JSValue)arg2, (JSValue)arg3, (JSValue) arg4);
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2, IJSValue arg3, IJSValue arg4, IJSValue arg5)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, new[] { arg1, arg2, arg3, arg4, arg5} );
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2, IJSValue arg3, IJSValue arg4, IJSValue arg5, IJSValue arg6)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, new[] { arg1, arg2, arg3, arg4, arg5, arg6 });
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2, IJSValue arg3, IJSValue arg4, IJSValue arg5, IJSValue arg6, IJSValue arg7)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, new[] { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
         return fx(a);
     }
 
     public IJSValue InvokeMethod(string name, IJSValue arg1, IJSValue arg2, IJSValue arg3, IJSValue arg4, IJSValue arg5, IJSValue arg6, IJSValue arg7, IJSValue arg8)
     {
-        var fx = GetMethod(name);
+        var fx = GetMethod(name.ToKeyString());
         var a = new Arguments(this, new[] { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
         return fx(a);
     }

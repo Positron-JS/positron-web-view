@@ -16,8 +16,8 @@ public partial class JSContext : IJSContext
 {
 
     IJSValue IJSContext.this[string name] {
-        get => this[name];
-        set => this[name] = value.ToJSValue(); 
+        get => this[name.ToKeyString()];
+        set => this[name.ToKeyString()] = value.ToJSValue(); 
     }
     IJSValue IJSContext.this[IJSValue keyOrSymbol] { 
         get => this[keyOrSymbol as JSValue]; 
