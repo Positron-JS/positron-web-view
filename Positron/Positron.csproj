@@ -33,6 +33,14 @@
 			<Link>Platforms\Android\Engine\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Compile>
 	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Resources\Positron.js" />
+	  <None Remove="Resources\TSLib.js" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Positron.js" />
+	  <EmbeddedResource Include="Resources\TSLib.js" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="15.0.0" />
@@ -63,18 +71,6 @@
 	  <Compile Update="Platforms\iOS\MauiAppBuilderExtensions.iOS.cs">
 	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
 	  </Compile>
-	  <Compile Update="Resources\Scripts.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Scripts.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Scripts.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Scripts.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>
