@@ -61,7 +61,7 @@
 		<PackageReference Include="Xamarin.AndroidX.Media3.Common" Version="1.10.1.1" />
 		<PackageReference Include="Xamarin.AndroidX.Media3.Transformer" Version="1.10.1.1" />
 		<ProjectReference Include="..\yantra\YantraJS.ExpressionCompiler\YantraJS.ExpressionCompiler.csproj" />
-		<ProjectReference Include="..\yantra\YantraJS.JSClassGenerator\YantraJS.JSClassGenerator.csproj" OutputItemType="Analyzer" />
+		<ProjectReference Include="YantraJS.JSClassGenerator" Version="1.2.462" OutputItemType="Analyzer" />
 	</ItemGroup>
 
 	<ItemGroup>
