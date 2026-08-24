@@ -88,14 +88,14 @@ public class GlobalClr
         }
         if (value.IsArray)
         {
-            return Serialize(value.ToArray().Select((x) => SerializeAsync(x)).ToList());
+            return Serialize(value.ToArray().Select((x) => Serialize(x)).ToList());
         }
         if (value.IsObject)
         {
             var list = new List<string>();
             foreach (var item in value.Entries)
             {
-                list.Add($"\"{item.Key}\": {SerializeAsync(item.Value)}");
+                list.Add($"\"{item.Key}\": {Serialize(item.Value)}");
             }
             return "{" + string.Join(",", list) + "}";
         }

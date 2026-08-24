@@ -57,14 +57,11 @@
 		<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.11.0.1" />
 		<PackageReference Include="YantraJS.ExpressionCompiler" Version="1.2.419" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.90" />
-		<PackageReference Include="YantraJS.JSClassGenerator" Version="1.2.419" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<PackageReference Include="Xamarin.Firebase.Messaging" Version="125.1.1" />
 		<PackageReference Include="Xamarin.AndroidX.Media3.Common" Version="1.10.1.1" />
 		<PackageReference Include="Xamarin.AndroidX.Media3.Transformer" Version="1.10.1.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\yantra\YantraJS.ExpressionCompiler\YantraJS.ExpressionCompiler.csproj" />
+		<ProjectReference Include="..\yantra\YantraJS.ExpressionCompiler\YantraJS.ExpressionCompiler.csproj" />
+		<ProjectReference Include="..\yantra\YantraJS.JSClassGenerator\YantraJS.JSClassGenerator.csproj" OutputItemType="Analyzer" />
 	</ItemGroup>
 
 	<ItemGroup>
